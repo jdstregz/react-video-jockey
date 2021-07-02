@@ -220,9 +220,5 @@ const videos = {
 }
 
 export const getVideo = (selected, layer) => {
-    console.log(selected, layer);
-    if (videos[layer]) {
-        return videos[layer][selected]
-    }
-    return null;
+    return videos[layer][selected];
 }
