@@ -30,7 +30,20 @@ const main = async () => {
             let col = 1;
             for (const video of videos) {
                 console.log(video)
-                await renameFile(`./src/assets/videos/${file}/${video}`, `./src/assets/videos/${file}/${layer}9-${row}${col}.mp4`);
+                await renameFile(`./src/assets/videos/${file}/${video}`, `./src/assets/videos/${file}/${layer}9-${row}${col}-temp.mp4`);
+                await writeToFile(`import ${name}${row}${col} from '../assets/videos/${file}/${layer}9-${row}${col}.mp4';`)
+                if (col === 8) {
+                    row += 1;
+                    col = 1;
+                } else {
+                    col = col + 1;
+                }
+            }
+            row = 1;
+            col = 1;
+            for (const video of videos) {
+                console.log(video)
+                await renameFile(`./src/assets/videos/${file}/${layer}9-${row}${col}-temp.mp4`, `./src/assets/videos/${file}/${layer}9-${row}${col}.mp4`);
                 await writeToFile(`import ${name}${row}${col} from '../assets/videos/${file}/${layer}9-${row}${col}.mp4';`)
                 if (col === 8) {
                     row += 1;
@@ -66,7 +79,10 @@ const main = async () => {
     await writeToFile('}');
     await writeToFile('');
     await writeToFile(`export const getVideo = (selected, layer) => {`);
-    await writeToFile(`    return videos[layer][selected];`);
+    await writeToFile(`    if (videos[layer]) {`);
+    await writeToFile(`        return videos[layer][selected];`);
+    await writeToFile(`    }`);
+    await writeToFile(`    return null;`);
     await writeToFile(`}`);
     console.log("Created videoLoader.js")
 

@@ -1,0 +1,11 @@
+.fixed-width-height {
+    position: relative;
+}
+.fixed-width-height video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}

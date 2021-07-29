@@ -2,12 +2,14 @@ let on = [];
 let layer = [89];
 let layers = [29,39,49,59,69,79,89];
 
-export const onMidiMessage = (message, output, setSelected, setLayer) => {
+export const onMidiMessage = (message, output, setSelected, setLayer, setDown) => {
     const {data} = message;
+    console.log(data);
     if (data.length >= 3 && data[2] > 0) {
         // then it wasn't a button release
         console.log(data);
         let pad = data[1];
+        let down = data[2] === 127;
         if (pad === 19) {
             // send stop message
             output.send([240, 0, 32, 41, 2, 13, 7, 247])
@@ -33,9 +35,13 @@ export const onMidiMessage = (message, output, setSelected, setLayer) => {
                 on.push(pad);
                 output.send([144, pad, 5]);
                 setSelected(pad);
+                setDown(down);
             }
         }
 
+    } else if (data.length >= 3 && data[2] === 0) {
+        let down = data[2] === 127;
+        setDown(down);
     }
 
 
